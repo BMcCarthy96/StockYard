@@ -21,8 +21,6 @@ class Portfolio(db.Model):
             "balance": self.balance
 =======
 
-    user = db.relationship("User", back_populates="portfolio")
-
     def to_dict(self):
         return {
             'id': self.id,

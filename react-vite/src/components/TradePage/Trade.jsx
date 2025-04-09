@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Trade.css";
 
 const stocks = [
@@ -121,9 +121,42 @@ function Trade() {
   const [selectedStock, setSelectedStock] = useState(stocks[0]); // Default to the first stock
   const [selectedSide, setSelectedSide] = useState("Buy");
   const [quantity, setQuantity] = useState(10);
+  const [stopPriceType, setStopPriceType] = useState("Dollars"); // Toggle between Dollars and Percentages
+  const [stopPrice, setStopPrice] = useState(-1); // Default to -1%
+  const [limitPrice, setLimitPrice] = useState(1); // Default to +1%
 
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);
+  };
+
+  const toggleStopPriceType = () => {
+    setStopPriceType((prevType) =>
+      prevType === "Dollars" ? "Percentages" : "Dollars"
+    );
+  };
+
+  const adjustStopPrice = (delta) => {
+    setStopPrice((prev) =>
+      stopPriceType === "Dollars" ? prev + delta : Math.max(prev + delta, -100)
+    );
+  };
+
+  const adjustLimitPrice = (delta) => {
+    setLimitPrice((prev) =>
+      stopPriceType === "Dollars" ? prev + delta : Math.max(prev + delta, 0)
+    );
+  };
+
+  const formatPrice = (value) => {
+    if (stopPriceType === "Dollars") {
+      return `$${(value * selectedStock.lastPrice.replace("$", "")).toFixed(
+        2
+      )}`;
+    }
+    return `${value}% (${(
+      selectedStock.lastPrice.replace("$", "") *
+      (1 + value / 100)
+    ).toFixed(2)})`;
   };
 
   return (
@@ -179,58 +212,6 @@ function Trade() {
         </div>
         {isSidebarExpanded && (
           <div className="sidebar-content">
-            {/* Quote Section */}
-            <div className="quote-section">
-              <h3>Quote</h3>
-              <div className="quote-symbol">
-                <strong>{selectedStock.symbol}</strong>{" "}
-                <span>{selectedStock.name}</span>
-              </div>
-              <div className="quote-price">
-                <span className="price">{selectedStock.lastPrice}</span>
-                <div className="price-change">
-                  <span
-                    className={`change ${
-                      selectedStock.change.startsWith("+")
-                        ? "positive"
-                        : "negative"
-                    }`}
-                  >
-                    {selectedStock.change}
-                  </span>
-                  <span
-                    className={`percent-change ${
-                      selectedStock.percentChange.startsWith("+")
-                        ? "positive"
-                        : "negative"
-                    }`}
-                  >
-                    {selectedStock.percentChange}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Key Statistics Section */}
-            <div className="key-statistics-section">
-              <h3>Key Statistics</h3>
-              <div className="statistics-grid">
-                <div>Open</div>
-                <div>{selectedStock.open}</div>
-                <div>High</div>
-                <div>{selectedStock.high}</div>
-                <div>52 Wk High</div>
-                <div>{selectedStock.wk52High}</div>
-                <div>Prev Close</div>
-                <div>{selectedStock.prevClose}</div>
-                <div>Low</div>
-                <div>{selectedStock.low}</div>
-                <div>52 Wk Low</div>
-                <div>{selectedStock.wk52Low}</div>
-              </div>
-            </div>
-
-            {/* Classic Trade Section */}
             <div className="classic-trade-section">
               <h3>Classic Trade</h3>
               <div className="side-bar">
@@ -251,17 +232,8 @@ function Trade() {
                   Sell
                 </div>
               </div>
-
-              <div className="order-type">
-                <label>Order Type</label>
-                <select>
-                  <option>MARKET</option>
-                  <option>LIMIT</option>
-                </select>
-              </div>
-
               <div className="quantity-selector">
-                <label>Quantity</label>
+                <label>Quantity:</label>
                 <select
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
@@ -272,26 +244,77 @@ function Trade() {
                   <option value={500}>500</option>
                 </select>
               </div>
-
-              <div className="time-in-force">
-                <label>Time-in-Force</label>
-                <select>
-                  <option>Day</option>
-                  <option>GTC</option>
-                </select>
-              </div>
-
               <div>
                 <label>
                   <input type="checkbox" />
                   Stop-Loss Order
                 </label>
+                <div className="stop-price">
+                  <input
+                    type="number"
+                    value={stopPrice}
+                    onChange={(e) => setStopPrice(Number(e.target.value))}
+                    step={stopPriceType === "Dollars" ? 0.01 : 1}
+                    min={stopPriceType === "Percentages" ? -100 : undefined}
+                  />
+                  <button
+                    onClick={() =>
+                      adjustStopPrice(stopPriceType === "Dollars" ? 0.01 : 1)
+                    }
+                  >
+                    ▲
+                  </button>
+                  <button
+                    onClick={() =>
+                      adjustStopPrice(stopPriceType === "Dollars" ? -0.01 : -1)
+                    }
+                  >
+                    ▼
+                  </button>
+                  <span>
+                    {stopPriceType === "Percentages" && formatPrice(stopPrice)}
+                  </span>
+                </div>
                 <br />
                 <label>
                   <input type="checkbox" />
                   Take-Profit Order
                 </label>
+                <div className="stop-price">
+                  <input
+                    type="number"
+                    value={limitPrice}
+                    onChange={(e) => setLimitPrice(Number(e.target.value))}
+                    step={stopPriceType === "Dollars" ? 0.01 : 1}
+                    min={stopPriceType === "Percentages" ? 0 : undefined}
+                  />
+                  <button
+                    onClick={() =>
+                      adjustLimitPrice(stopPriceType === "Dollars" ? 0.01 : 1)
+                    }
+                  >
+                    ▲
+                  </button>
+                  <button
+                    onClick={() =>
+                      adjustLimitPrice(stopPriceType === "Dollars" ? -0.01 : -1)
+                    }
+                  >
+                    ▼
+                  </button>
+                  <span>
+                    {stopPriceType === "Percentages" && formatPrice(limitPrice)}
+                  </span>
+                </div>
+                <button
+                  className={`trade-button ${
+                    selectedSide === "Buy" ? "buy" : "sell"
+                  }`}
+                >
+                  {selectedSide} ({selectedStock.symbol})
+                </button>
               </div>
+              <button onClick={toggleStopPriceType}>{stopPriceType}</button>
             </div>
           </div>
         )}

@@ -155,3 +155,50 @@
   border-radius: 4px;
   border: 1px solid #ccc;
 }
+
+.stop-price {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.stop-price input {
+  width: 80px;
+  padding: 5px;
+  text-align: right;
+}
+
+.stop-price button {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.stop-price span {
+  font-size: 0.9em;
+  color: gray;
+}
+
+.stop-price button:hover {
+  background-color: #ccc;
+}
+
+.trade-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.trade-button.buy {
+  background-color: green;
+  color: white;
+}
+
+.trade-button.sell {
+  background-color: red;
+  color: white;
+}

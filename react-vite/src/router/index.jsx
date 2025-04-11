@@ -1,8 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/LoginFormPage';
-import SignupFormPage from '../components/SignupFormPage';
-import Layout from './Layout';
-import Portfolio from './components/Portfolio/Portfolio';
+import { createBrowserRouter } from "react-router-dom";
+import Trade from "../components/Trade";
+import Watchlist from "../components/Watchlist";
+import Portfolio from "../components/Portfolio";
+import LoginFormPage from "../components/LoginFormPage";
+import SignupFormPage from "../components/SignupFormPage";
+import Layout from "./Layout";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,9 @@ export const router = createBrowserRouter([
           </>
         ),
       },
+      { path: "/trade", element: <Trade /> },
+      { path: "/watchlist", element: <Watchlist /> },
+      { path: "/portfolio", element: <Portfolio /> },
       {
         path: "login",
         element: <LoginFormPage />,

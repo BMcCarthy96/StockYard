@@ -12,7 +12,7 @@ class Stock(db.Model):
     exchange = db.Column(db.String(10), nullable=False)
     sector = db.Column(db.String(50), nullable=False)
 
-    portfolio_stocks = db.relationship('PortfolioStock', back_populates='stock', cascade='all, delete-orphan')
+    portfolio=db.relationship('Portfolio', back_populates='stocks')
     watchlist_stocks = db.relationship('WatchlistStock', back_populates='stock')
 
     def __repr__(self):

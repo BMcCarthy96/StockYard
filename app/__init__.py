@@ -12,6 +12,8 @@ from .seeds import seed_commands
 from .config import Config
 from .api.portfolio_routes import portfolio_routes
 
+app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')
+
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')

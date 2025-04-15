@@ -10,6 +10,8 @@ class Portfolio(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     balance = db.Column(db.Float, nullable=False, default=0.0)
 
+    user = db.relationship('User', back_populates='portfolios')
+
     def to_dict(self):
         return {
             'id': self.id,

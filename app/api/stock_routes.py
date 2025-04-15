@@ -83,7 +83,6 @@ def add_to_portfolio():
 
     db.session.commit()
     return {"message": "Stock added to portfolio"}
-<<<<<<< HEAD
 
 
 @stock_routes.route('/portfolio/<int:portfolio_id>/stocks/<int:stock_id>', methods=['PUT'])
@@ -124,5 +123,3 @@ def remove_from_portfolio(symbol):
         db.session.commit()
         return {"message": f"Stock {symbol} removed from portfolio"}
     return {"error": "Stock not found in portfolio"}, 404
-=======
->>>>>>> b4cc3e5 (Real time stock API Updates)

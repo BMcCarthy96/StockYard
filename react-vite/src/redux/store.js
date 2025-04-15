@@ -11,7 +11,6 @@ import stocksReducer from "./stocks";
 const rootReducer = combineReducers({
     session: sessionReducer,
     stocks: stocksReducer,
-    portfolio: portfolioReducer,
 });
 
 let enhancer;

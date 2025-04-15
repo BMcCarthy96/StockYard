@@ -11,6 +11,7 @@ class Portfolio(db.Model):
     cash_balance = db.Column(db.Float, default=0.0)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 572533a (migration and jsx done)
@@ -27,4 +28,11 @@ class Portfolio(db.Model):
             'user_id': self.user_id,
             'cash_balance': self.cash_balance
 >>>>>>> d807041 (added to models)
+=======
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "balance": self.balance
+>>>>>>> 9a957cc (updated seeders and other files)
         }

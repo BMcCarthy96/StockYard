@@ -57,6 +57,7 @@ class Portfolio(db.Model):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 572533a (migration and jsx done)
@@ -136,6 +137,13 @@ class Portfolio(db.Model):
 =======
             'cash_balance': self.cash_balance
 >>>>>>> b4aa7a1 (Added portfolio)
+=======
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "balance": self.balance
+>>>>>>> c0162d5 (updated seeders and other files)
         }
 >>>>>>> 30411c3 (Modified login styling to match signup)
 >>>>>>> bdf008d (Modified login styling to match signup)

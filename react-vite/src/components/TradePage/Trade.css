@@ -202,3 +202,23 @@
   background-color: red;
   color: white;
 }
+
+.trade-container {
+  padding: 20px;
+}
+
+.trade-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trade-table th,
+.trade-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.trade-table th {
+  background-color: #f4f4f4;
+}

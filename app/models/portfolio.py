@@ -52,6 +52,7 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     cash_balance = db.Column(db.Float, default=0.0)
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     user = db.relationship("User", back_populates="portfolio")
@@ -80,6 +81,13 @@ class Portfolio(db.Model):
 =======
             'cash_balance': self.cash_balance
 >>>>>>> 94b375f (Rebased)
+=======
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "balance": self.balance
+>>>>>>> e5b7873 (updated seeders and other files)
         }
 >>>>>>> 30411c3 (Modified login styling to match signup)
 >>>>>>> bdf008d (Modified login styling to match signup)

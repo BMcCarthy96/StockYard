@@ -90,6 +90,15 @@ function LoginFormPage() {
     }
   };
 
+  const handleDemoLogin = async (email) => {
+    const serverResponse = await dispatch(thunkLogin({ email, password: "password" }));
+    if (!serverResponse) {
+      navigate("/");
+    } else {
+      setErrors(serverResponse);
+    }
+  };
+
   return (
     <div className="login-page">
       <div className="left-pane">
@@ -194,6 +203,13 @@ function LoginFormPage() {
               >
                 <FcGoogle /> Google
               </button>
+            </div>
+
+            <div className="demo-logins">
+              <p>Try a Demo User:</p>
+              <button type="button" onClick={() => handleDemoLogin("demo@aa.io")}>Demo</button>
+              <button type="button" onClick={() => handleDemoLogin("marnie@aa.io")}>Marnie</button>
+              <button type="button" onClick={() => handleDemoLogin("bobbie@aa.io")}>Bobbie</button>
             </div>
           </form>
         </div>

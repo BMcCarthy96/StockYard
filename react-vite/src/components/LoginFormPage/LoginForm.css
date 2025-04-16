@@ -160,9 +160,33 @@
   border: 1px solid #ccc;
 }
 
-.error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: -0.4rem;
-  margin-bottom: 0.4rem;
-}
+  .error {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* demo user buttons */
+  .demo-logins {
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .demo-logins p {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  .demo-logins button {
+    margin: 0.25rem;
+    padding: 0.5rem 1rem;
+    background-color: #ccc;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .demo-logins button:hover {
+    background-color: #aaa;
+  }

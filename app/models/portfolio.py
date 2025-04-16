@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 =======
 <<<<<<< HEAD
@@ -10,6 +11,8 @@ from .db import db
 =======
 =======
 >>>>>>> 6061f4a (Modified login styling to match signup)
+=======
+>>>>>>> b4aa7a1 (Added portfolio)
 <<<<<<< HEAD
 =======
 from .db import db
@@ -25,7 +28,13 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .db import db
 >>>>>>> ef081c6 (Modified login styling to match signup)
 >>>>>>> 73157a9 (Modified login styling to match signup)
+<<<<<<< HEAD
 >>>>>>> 6061f4a (Modified login styling to match signup)
+=======
+=======
+from .db import db, environment, SCHEMA, add_prefix_for_prod
+>>>>>>> 074b939 (Added portfolio)
+>>>>>>> b4aa7a1 (Added portfolio)
 
 class Portfolio(db.Model):
     __tablename__ = 'portfolios'
@@ -33,14 +42,18 @@ class Portfolio(db.Model):
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6061f4a (Modified login styling to match signup)
+=======
+>>>>>>> b4aa7a1 (Added portfolio)
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     cash_balance = db.Column(db.Float, default=0.0)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -67,6 +80,10 @@ class Portfolio(db.Model):
 =======
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
+=======
+
+    user = db.relationship("User", back_populates="portfolio")
+>>>>>>> b4aa7a1 (Added portfolio)
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
@@ -86,6 +103,7 @@ class Portfolio(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -115,6 +133,9 @@ class Portfolio(db.Model):
             'balance': self.balance,
 >>>>>>> ef081c6 (Modified login styling to match signup)
 >>>>>>> 6061f4a (Modified login styling to match signup)
+=======
+            'cash_balance': self.cash_balance
+>>>>>>> b4aa7a1 (Added portfolio)
         }
 >>>>>>> 30411c3 (Modified login styling to match signup)
 >>>>>>> bdf008d (Modified login styling to match signup)

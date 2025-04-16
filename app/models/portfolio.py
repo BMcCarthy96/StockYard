@@ -9,6 +9,10 @@ class Portfolio(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     cash_balance = db.Column(db.Float, default=0.0)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 572533a (migration and jsx done)
     def to_dict(self):
         return {
             "id": self.id,

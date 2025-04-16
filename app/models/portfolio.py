@@ -8,7 +8,7 @@ class Portfolio(db.Model):
     balance = db.Column(db.Float, nullable=True)
     stocks = db.relationship('Stock', back_populates='portfolio')
 
-    user = db.relationship('User', back_populates='portfolios')
+    user = db.relationship("User", back_populates="portfolio")
 
     def __repr__(self):
         return f'<Portfolio {self.id}>'

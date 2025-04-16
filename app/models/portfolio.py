@@ -52,6 +52,7 @@ class Portfolio(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 <<<<<<< HEAD
+<<<<<<< HEAD
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
     cash_balance = db.Column(db.Float, default=0.0)
 <<<<<<< HEAD
@@ -148,15 +149,23 @@ class Portfolio(db.Model):
 =======
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     balance = db.Column(db.Float, nullable=False, default=0.0)
+=======
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False, unique=True)
+    cash_balance = db.Column(db.Float, default=0.0)
+>>>>>>> aa882ee (Rebased)
 
-    user = db.relationship('User', back_populates='portfolios')
+    user = db.relationship("User", back_populates="portfolio")
 
     def to_dict(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
+<<<<<<< HEAD
             'balance': self.balance,
 >>>>>>> 1eee459 (Modified login styling to match signup)
+=======
+            'cash_balance': self.cash_balance
+>>>>>>> aa882ee (Rebased)
         }
 >>>>>>> 30411c3 (Modified login styling to match signup)
 >>>>>>> bdf008d (Modified login styling to match signup)

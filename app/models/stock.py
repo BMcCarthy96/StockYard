@@ -9,13 +9,11 @@ class Stock(db.Model):
     name = db.Column(db.String(100), nullable=False)
     exchange = db.Column(db.String(50), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    exchange = db.Column(db.String(10), nullable=False)
+    sector = db.Column(db.String(50), nullable=False)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'portfolio_id': self.portfolio_id,
-            'ticker': self.ticker,
-            'name': self.name,
-            'exchange': self.exchange,
-            'price': self.price
-        }
+    portfolio_stocks = db.relationship('PortfolioStock', back_populates='stock', cascade='all, delete-orphan')
+    watchlist_stocks = db.relationship('WatchlistStock', back_populates='stock')
+
+    def __repr__(self):
+        return f'<Stock {self.ticker}>'

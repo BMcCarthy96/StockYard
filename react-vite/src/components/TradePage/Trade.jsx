@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStocks } from "../../redux/stocks";
-import { thunkAddToWatchlist } from "../../redux/watchlist";
-import { thunkAddToPortfolio } from "../../redux/portfolio";
+import {
+  thunkAddToWatchlist,
+  thunkRemoveFromWatchlist,
+} from "../../redux/watchlist";
+import {
+  thunkAddToPortfolio,
+  thunkRemoveFromPortfolio,
+} from "../../redux/portfolio";
 import "./Trade.css";
 
 function Trade() {
   const dispatch = useDispatch();
   const stocks = useSelector((state) => state.stocks);
+  const watchlist = useSelector((state) => state.watchlist);
   const sessionUser = useSelector((state) => state.session.user);
 
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -59,8 +66,20 @@ function Trade() {
     dispatch(thunkAddToWatchlist(stock));
   };
 
+  const handleRemoveFromWatchlist = (stockSymbol) => {
+    dispatch(thunkRemoveFromWatchlist(stockSymbol));
+  };
+
+  const isStockInWatchlist = (stockSymbol) => {
+    return watchlist.some((stock) => stock.symbol === stockSymbol);
+  };
+
   const handleAddToPortfolio = (stock) => {
     dispatch(thunkAddToPortfolio(stock));
+  };
+
+  const handleSellStock = (stock) => {
+    dispatch(thunkRemoveFromPortfolio(stock.symbol));
   };
 
   return (
@@ -90,12 +109,21 @@ function Trade() {
                   <td>${stock.price.toFixed(2)}</td>
                   <td>{stock.change}</td>
                   <td>
-                    <button onClick={() => handleAddToWatchlist(stock)}>
-                      Add to Watchlist
-                    </button>
+                    {isStockInWatchlist(stock.symbol) ? (
+                      <button
+                        onClick={() => handleRemoveFromWatchlist(stock.symbol)}
+                      >
+                        Remove from Watchlist
+                      </button>
+                    ) : (
+                      <button onClick={() => handleAddToWatchlist(stock)}>
+                        Add to Watchlist
+                      </button>
+                    )}
                     <button onClick={() => handleAddToPortfolio(stock)}>
                       Add to Portfolio
                     </button>
+                    <button onClick={() => handleSellStock(stock)}>Sell</button>
                   </td>
                 </tr>
               ))}
@@ -162,9 +190,7 @@ function Trade() {
                     />
                     <button
                       onClick={() =>
-                        adjustStopPrice(
-                          stopPriceType === "Dollars" ? 0.01 : 1
-                        )
+                        adjustStopPrice(stopPriceType === "Dollars" ? 0.01 : 1)
                       }
                     >
                       ▲
@@ -198,9 +224,7 @@ function Trade() {
                     />
                     <button
                       onClick={() =>
-                        adjustLimitPrice(
-                          stopPriceType === "Dollars" ? 0.01 : 1
-                        )
+                        adjustLimitPrice(stopPriceType === "Dollars" ? 0.01 : 1)
                       }
                     >
                       ▲

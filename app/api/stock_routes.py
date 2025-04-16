@@ -34,3 +34,13 @@ def add_to_portfolio():
     db.session.add(stock)
     db.session.commit()
     return {"message": "Stock added to portfolio"}
+
+@stock_routes.route('/portfolio/<string:symbol>', methods=['DELETE'])
+@login_required
+def remove_from_portfolio(symbol):
+    stock = Portfolio.query.filter_by(user_id=current_user.id, symbol=symbol).first()
+    if stock:
+        db.session.delete(stock)
+        db.session.commit()
+        return {"message": f"Stock {symbol} removed from portfolio"}
+    return {"error": "Stock not found in portfolio"}, 404

@@ -3,6 +3,7 @@ const REMOVE_USER = "session/removeUser";
 const ADD_TO_WATCHLIST = "watchlist/addToWatchlist";
 const REMOVE_FROM_WATCHLIST = "watchlist/removeFromWatchlist";
 const ADD_TO_PORTFOLIO = "portfolio/addToPortfolio";
+const REMOVE_FROM_PORTFOLIO = "portfolio/removeFromPortfolio";
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -25,6 +26,11 @@ const removeFromWatchlist = (stock) => ({
 const addToPortfolio = (stock) => ({
   type: ADD_TO_PORTFOLIO,
   payload: stock,
+});
+
+const removeFromPortfolio = (stockSymbol) => ({
+  type: REMOVE_FROM_PORTFOLIO,
+  payload: stockSymbol,
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
@@ -108,6 +114,15 @@ export const thunkAddToPortfolio = (stock) => async (dispatch) => {
   });
   if (response.ok) {
     dispatch(addToPortfolio(stock));
+  }
+};
+
+export const thunkRemoveFromPortfolio = (stockSymbol) => async (dispatch) => {
+  const response = await fetch(`/api/stocks/portfolio/${stockSymbol}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(removeFromPortfolio(stockSymbol));
   }
 };
 

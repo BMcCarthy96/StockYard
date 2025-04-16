@@ -1,3 +1,3 @@
-import PortfolioPage from './Portfolio';
+import PortfolioPage from "./PortfolioPage";
 
 export default PortfolioPage;

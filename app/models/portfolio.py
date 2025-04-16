@@ -7,7 +7,7 @@ class Portfolio(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     balance = db.Column(db.Float, nullable=True)
 
-    user = db.relationship('User', back_populates='portfolios')
+    user = db.relationship("User", back_populates="portfolio")
 
     def __repr__(self):
         return f'<Portfolio {self.id}>'

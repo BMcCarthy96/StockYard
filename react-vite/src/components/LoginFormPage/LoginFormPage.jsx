@@ -90,12 +90,12 @@ function LoginFormPage() {
     }
   };
 
-  const handleDemoLogin = async (email) => {
-    const serverResponse = await dispatch(thunkLogin({ email, password: "password" }));
-    if (!serverResponse) {
-      navigate("/");
+  const handleDemoLogin = async (email, password) => {
+    const data = await dispatch(thunkLogin({ email, password }));
+    if (data) {
+      setErrors(data);
     } else {
-      setErrors(serverResponse);
+      navigate("/");
     }
   };
 
@@ -178,6 +178,12 @@ function LoginFormPage() {
             {errors.password && <p className="error">{errors.password}</p>}
 
             <button type="submit">Log In</button>
+
+            <div className="demo-button">
+              <button onClick={() => handleDemoLogin("demo@aa.io", "password")}>
+                Log in as Demo
+              </button>
+            </div>
 
             <div className="forgot-links">
               <p onClick={() => navigate("/signup")}>Forgot Password?</p>

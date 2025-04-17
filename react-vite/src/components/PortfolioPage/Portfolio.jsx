@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getPortfolioThunk, createPortfolioThunk, updatePortfolioThunk, deletePortfolioThunk } from '../../redux/portfolio';
+import { useSelector } from 'react-redux';
+// import { getPortfolioThunk, createPortfolioThunk, updatePortfolioThunk, deletePortfolioThunk } from '../../redux/portfolio';
 import './Portfolio.css';
 
 

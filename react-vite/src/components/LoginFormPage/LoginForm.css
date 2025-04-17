@@ -167,26 +167,24 @@
     margin-bottom: 0.4rem;
   }
 
-  /* demo user buttons */
-  .demo-logins {
+  .demo-button {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: 1rem;
-    text-align: center;
   }
 
-  .demo-logins p {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-
-  .demo-logins button {
-    margin: 0.25rem;
-    padding: 0.5rem 1rem;
-    background-color: #ccc;
+  .demo-button button {
+    padding: 0.6rem;
+    font-size: 0.95rem;
     border: none;
     border-radius: 6px;
+    background-color: #555;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.2s;
   }
 
-  .demo-logins button:hover {
-    background-color: #aaa;
+  .demo-button button:hover {
+    background-color: #333;
   }

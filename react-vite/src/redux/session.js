@@ -1,9 +1,9 @@
 const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
-const ADD_TO_WATCHLIST = "watchlist/addToWatchlist";
-const REMOVE_FROM_WATCHLIST = "watchlist/removeFromWatchlist";
-const ADD_TO_PORTFOLIO = "portfolio/addToPortfolio";
-const REMOVE_FROM_PORTFOLIO = "portfolio/removeFromPortfolio";
+const ADD_TO_WATCHLIST = "session/addToWatchlist";
+const REMOVE_FROM_WATCHLIST = "session/removeFromWatchlist";
+const ADD_TO_PORTFOLIO = "session/addToPortfolio";
+const REMOVE_FROM_PORTFOLIO = "session/removeFromPortfolio";
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -86,7 +86,10 @@ export const thunkLogout = () => async (dispatch) => {
     dispatch(removeUser());
 };
 
-export const thunkAddToWatchlist = (stock) => async (dispatch) => {
+export const thunkAddToWatchlist = (stock) => async (dispatch, getState) => {
+    const { user } = getState().session;
+    if (!user) return;
+
     const response = await fetch("/api/stocks/watchlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,16 +100,23 @@ export const thunkAddToWatchlist = (stock) => async (dispatch) => {
     }
 };
 
-export const thunkRemoveFromWatchlist = (stockSymbol) => async (dispatch) => {
-    const response = await fetch(`/api/stocks/watchlist/${stockSymbol}`, {
-        method: "DELETE",
-    });
-    if (response.ok) {
-        dispatch(removeFromWatchlist(stockSymbol));
-    }
-};
+export const thunkRemoveFromWatchlist =
+    (stockSymbol) => async (dispatch, getState) => {
+        const { user } = getState().session;
+        if (!user) return;
 
-export const thunkAddToPortfolio = (stock) => async (dispatch) => {
+        const response = await fetch(`/api/stocks/watchlist/${stockSymbol}`, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            dispatch(removeFromWatchlist(stockSymbol));
+        }
+    };
+
+export const thunkAddToPortfolio = (stock) => async (dispatch, getState) => {
+    const { user } = getState().session;
+    if (!user) return;
+
     const response = await fetch("/api/stocks/portfolio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,48 +127,54 @@ export const thunkAddToPortfolio = (stock) => async (dispatch) => {
     }
 };
 
-export const thunkRemoveFromPortfolio = (stockSymbol) => async (dispatch) => {
-    const response = await fetch(`/api/stocks/portfolio/${stockSymbol}`, {
-        method: "DELETE",
-    });
-    if (response.ok) {
-        dispatch(removeFromPortfolio(stockSymbol));
-    }
-};
+export const thunkRemoveFromPortfolio =
+    (stockSymbol) => async (dispatch, getState) => {
+        const { user } = getState().session;
+        if (!user) return;
 
-const sessionInitialState = { user: null };
-const watchlistInitialState = [];
-const portfolioInitialState = [];
+        const response = await fetch(`/api/stocks/portfolio/${stockSymbol}`, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            dispatch(removeFromPortfolio(stockSymbol));
+        }
+    };
+
+const sessionInitialState = { user: null, watchlist: [], portfolio: [] };
 
 function sessionReducer(state = sessionInitialState, action) {
     switch (action.type) {
         case SET_USER:
             return { ...state, user: action.payload };
         case REMOVE_USER:
-            return { ...state, user: null };
-        default:
-            return state;
-    }
-}
-
-function watchlistReducer(state = watchlistInitialState, action) {
-    switch (action.type) {
+            return { ...state, user: null, watchlist: [], portfolio: [] };
         case ADD_TO_WATCHLIST:
-            return [...state, action.payload];
+            return {
+                ...state,
+                watchlist: [...state.watchlist, action.payload],
+            };
         case REMOVE_FROM_WATCHLIST:
-            return state.filter((stock) => stock.symbol !== action.payload);
-        default:
-            return state;
-    }
-}
-
-function portfolioReducer(state = portfolioInitialState, action) {
-    switch (action.type) {
+            return {
+                ...state,
+                watchlist: state.watchlist.filter(
+                    (stock) => stock.symbol !== action.payload
+                ),
+            };
         case ADD_TO_PORTFOLIO:
-            return [...state, action.payload];
+            return {
+                ...state,
+                portfolio: [...state.portfolio, action.payload],
+            };
+        case REMOVE_FROM_PORTFOLIO:
+            return {
+                ...state,
+                portfolio: state.portfolio.filter(
+                    (stock) => stock.symbol !== action.payload
+                ),
+            };
         default:
             return state;
     }
 }
 
-export { sessionReducer, watchlistReducer, portfolioReducer };
+export { sessionReducer };

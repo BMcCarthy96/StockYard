@@ -5,13 +5,12 @@ import {
   combineReducers,
 } from "redux";
 import thunk from "redux-thunk";
-import { sessionReducer, portfolioReducer } from "./session";
+import { sessionReducer } from "./session";
 import stocksReducer from "./stocks";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   stocks: stocksReducer,
-  portfolio: portfolioReducer,
 });
 
 let enhancer;

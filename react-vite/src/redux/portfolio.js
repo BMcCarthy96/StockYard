@@ -65,11 +65,10 @@ export default function portfolioReducer(state = initialState, action) {
     switch (action.type) {
         case SET_PORTFOLIO:
             return { ...state, [action.payload.user_id]: action.payload };
-        case REMOVE_PORTFOLIO: {
+        case REMOVE_PORTFOLIO:
             const newState = { ...state };
             delete newState[action.userId];
             return newState;
-        }
         default:
             return state;
     }

@@ -7,12 +7,10 @@ import {
 import thunk from "redux-thunk";
 import { sessionReducer, portfolioReducer } from "./session";
 import stocksReducer from "./stocks";
-import watchlistReducer from "./watchlist";
 
 const rootReducer = combineReducers({
     session: sessionReducer,
     stocks: stocksReducer,
-    watchlist: watchlistReducer,
     portfolio: portfolioReducer,
 });
 

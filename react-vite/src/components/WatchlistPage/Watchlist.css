@@ -1,0 +1,41 @@
+.watchlist-container {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.watchlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.watchlist-table th,
+.watchlist-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+.watchlist-table th {
+  background-color: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.remove-button {
+  padding: 8px 12px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.remove-button:hover {
+  background-color: #c0392b;
+}

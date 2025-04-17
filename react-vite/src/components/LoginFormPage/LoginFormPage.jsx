@@ -86,16 +86,20 @@ function LoginFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/");
+      console.log("Navigating!")
+      navigate("/portfolio");
     }
   };
 
-  const handleDemoLogin = async (email, password) => {
-    const data = await dispatch(thunkLogin({ email, password }));
-    if (data) {
-      setErrors(data);
+  const handleDemoLogin = async () => {
+    const demoCredential = 'demo@aa.io';
+    const demoPassword = 'password';
+    const serverResponse = await dispatch(thunkLogin({ email: demoCredential, password: demoPassword }));
+
+    if (serverResponse) {
+      setErrors(serverResponse);
     } else {
-      navigate("/");
+      navigate("/portfolio");
     }
   };
 

@@ -4,6 +4,10 @@ const ADD_TO_WATCHLIST = "session/addToWatchlist";
 const REMOVE_FROM_WATCHLIST = "session/removeFromWatchlist";
 const ADD_TO_PORTFOLIO = "session/addToPortfolio";
 const REMOVE_FROM_PORTFOLIO = "session/removeFromPortfolio";
+const ADD_TO_WATCHLIST = "session/addToWatchlist";
+const REMOVE_FROM_WATCHLIST = "session/removeFromWatchlist";
+const ADD_TO_PORTFOLIO = "session/addToPortfolio";
+const REMOVE_FROM_PORTFOLIO = "session/removeFromPortfolio";
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -141,6 +145,7 @@ export const thunkRemoveFromPortfolio =
     };
 
 const sessionInitialState = { user: null, watchlist: [], portfolio: [] };
+const sessionInitialState = { user: null, watchlist: [], portfolio: [] };
 
 function sessionReducer(state = sessionInitialState, action) {
     switch (action.type) {
@@ -177,4 +182,5 @@ function sessionReducer(state = sessionInitialState, action) {
     }
 }
 
+export { sessionReducer };
 export { sessionReducer };

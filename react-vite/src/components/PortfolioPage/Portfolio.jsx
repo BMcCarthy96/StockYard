@@ -40,7 +40,7 @@ export default function Portfolio() {
 
   return (
     <div className="portfolio-container">
-      <h1>{user.username}&#39;s Portfolio</h1>
+      <h1>{user.username}&apos;s Portfolio</h1>
       {portfolio ? (
         <>
           <div className="portfolio-card">

@@ -16,7 +16,7 @@ def get_portfolio(user_id):
 @portfolio_routes.route('/', methods=['POST'])
 @login_required
 def create_portfolio():
-    new_portfolio = Portfolio(user_id=current_user.id, cash_balance=0.0)
+    new_portfolio = Portfolio(user_id=current_user.id, balance=0.0)
     db.session.add(new_portfolio)
     db.session.commit()
     return new_portfolio.to_dict(), 201
@@ -34,7 +34,6 @@ def update_portfolio(user_id):
     portfolio.cash_balance += float(add_cash)
     db.session.commit()
     return portfolio.to_dict()
-
 
 @portfolio_routes.route('/<int:user_id>', methods=['DELETE'])
 @login_required

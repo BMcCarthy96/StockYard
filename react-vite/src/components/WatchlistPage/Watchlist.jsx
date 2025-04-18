@@ -26,8 +26,12 @@ function Watchlist() {
         <thead>
           <tr>
             <th>Symbol</th>
+            <th>Name</th>
             <th>Price</th>
             <th>Change</th>
+            <th>% Change</th>
+            <th>Open</th>
+            <th>Prev Close</th>
             <th>Actions</th>
           </tr>
         </thead>

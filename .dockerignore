@@ -1,7 +1,13 @@
 instance/*
 instance
 node_modules
+react-vite/node_modules
+react-vite/dist
 .env
 .venv
 dev.db
 .gitignore
+.git
+tests/
+.pytest_cache
+__pycache__

@@ -1,4 +1,3 @@
-import os
 from dotenv import load_dotenv
 
 # Load .env before any module below reads os.environ — relying on Flask CLI's
@@ -6,7 +5,7 @@ from dotenv import load_dotenv
 # gunicorn, pytest, and plain scripts need this explicit call.
 load_dotenv()
 
-from flask import Flask, request, redirect, send_from_directory
+from flask import Flask, request, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf
@@ -90,12 +89,11 @@ def api_help():
 @app.route('/<path:path>')
 def react_root(path):
     """
-    This route will direct to the public directory in our
-    react builds in the production environment for favicon
-    or index.html requests
+    Serves the React build's index.html for any route Flask itself doesn't
+    handle, so client-side routing (React Router) takes over. Real static
+    assets (JS/CSS/favicon) are already served by Flask's static handler
+    before this route is ever reached.
     """
-    if path == 'favicon.ico':
-        return send_from_directory(os.path.join(app.root_path, 'public'), 'favicon.ico')
     return app.send_static_file('index.html')
 
 

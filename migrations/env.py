@@ -9,7 +9,7 @@ from sqlalchemy import pool
 from alembic import context
 
 import os
-environment = "development" if os.environ.get("FLASK_DEBUG") == "1" else "production"
+environment = "development" if os.environ.get("FLASK_DEBUG", "").lower() in ("1", "true", "yes", "on") else "production"
 SCHEMA = os.environ.get("SCHEMA", "public")
 
 

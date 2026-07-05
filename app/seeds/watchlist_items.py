@@ -15,7 +15,7 @@ def seed_watchlist_items():
 
 def undo_watchlist_items():
     if environment == "production":
-        db.session.execute(text(f"TRUNCATE table {SCHEMA}.watchlist_items RESTART IDENTITY CASCADE;"))
+        db.session.execute(text(f'TRUNCATE table "{SCHEMA}".watchlist_items RESTART IDENTITY CASCADE;'))
     else:
         db.session.execute(text("DELETE FROM watchlist_items"))
     db.session.commit()

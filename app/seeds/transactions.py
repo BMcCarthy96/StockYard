@@ -27,7 +27,7 @@ def seed_transactions():
 
 def undo_transactions():
     if environment == "production":
-        db.session.execute(text(f"TRUNCATE table {SCHEMA}.transactions RESTART IDENTITY CASCADE;"))
+        db.session.execute(text(f'TRUNCATE table "{SCHEMA}".transactions RESTART IDENTITY CASCADE;'))
     else:
         db.session.execute(text("DELETE FROM transactions"))
     db.session.commit()

@@ -22,7 +22,7 @@ def seed_holdings():
 
 def undo_holdings():
     if environment == "production":
-        db.session.execute(text(f"TRUNCATE table {SCHEMA}.holdings RESTART IDENTITY CASCADE;"))
+        db.session.execute(text(f'TRUNCATE table "{SCHEMA}".holdings RESTART IDENTITY CASCADE;'))
     else:
         db.session.execute(text("DELETE FROM holdings"))
     db.session.commit()

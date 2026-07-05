@@ -10,3 +10,4 @@ python-dotenv==1.0.1
 gunicorn==21.2.0
 psycopg2-binary==2.9.9
 yfinance>=0.2.60
+pytest==9.1.1

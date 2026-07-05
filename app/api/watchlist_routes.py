@@ -1,47 +1,44 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Watchlist, WatchlistStock
+
+from app.assets import is_valid_symbol
+from app.models import db, WatchlistItem
 
 watchlist_routes = Blueprint('watchlist', __name__)
 
-@watchlist_routes.route('/watchlist', methods=['GET'])
+
+@watchlist_routes.route('/', methods=['GET'])
 @login_required
 def get_watchlist():
-    watchlist = WatchlistStock.query.filter_by(user_id=current_user.id).all()
-    return jsonify([{
-        'stock_id': item.stock_id,
-        'symbol': item.stock.symbol,
-        'name': item.stock.name
-    } for item in watchlist])
+    items = WatchlistItem.query.filter_by(user_id=current_user.id).order_by(WatchlistItem.created_at.asc()).all()
+    return {"items": [item.to_dict() for item in items]}
 
 
-@watchlist_routes.route('/watchlist', methods=['POST'])
+@watchlist_routes.route('/', methods=['POST'])
 @login_required
 def add_to_watchlist():
-    data = request.get_json()
-    stock_id = data.get('stock_id')
+    data = request.get_json(silent=True) or {}
+    symbol = data.get('symbol')
+    if not symbol or not is_valid_symbol(symbol):
+        return {"errors": {"symbol": "Unknown symbol"}}, 400
 
-    if not stock_id:
-        return jsonify({'error': 'Stock ID is required'}), 400
-
-    # Prevent duplicates
-    existing = WatchlistStock.query.filter_by(user_id=current_user.id, stock_id=stock_id).first()
+    existing = WatchlistItem.query.filter_by(user_id=current_user.id, symbol=symbol).first()
     if existing:
-        return jsonify({'message': 'Stock already in watchlist'}), 200
+        return {"errors": {"symbol": "Already in watchlist"}}, 409
 
-    new_watch = WatchlistStock(user_id=current_user.id, stock_id=stock_id)
-    db.session.add(new_watch)
+    item = WatchlistItem(user_id=current_user.id, symbol=symbol)
+    db.session.add(item)
     db.session.commit()
-    return jsonify({'message': 'Stock added to watchlist'}), 201
+    return item.to_dict(), 201
 
 
-@watchlist_routes.route('/watchlist/<int:stock_id>', methods=['DELETE'])
+@watchlist_routes.route('/<string:symbol>', methods=['DELETE'])
 @login_required
-def remove_from_watchlist(stock_id):
-    watch_item = WatchlistStock.query.filter_by(user_id=current_user.id, stock_id=stock_id).first()
-    if not watch_item:
-        return jsonify({'error': 'Stock not found in watchlist'}), 404
+def remove_from_watchlist(symbol):
+    item = WatchlistItem.query.filter_by(user_id=current_user.id, symbol=symbol).first()
+    if not item:
+        return {"errors": {"symbol": "Not in watchlist"}}, 404
 
-    db.session.delete(watch_item)
+    db.session.delete(item)
     db.session.commit()
-    return jsonify({'message': 'Stock removed from watchlist'}), 200
+    return {"message": "Removed from watchlist"}

@@ -6,14 +6,18 @@ from dotenv import load_dotenv
 # gunicorn, pytest, and plain scripts need this explicit call.
 load_dotenv()
 
-from flask import Flask, render_template, request, session, redirect, send_from_directory
+from flask import Flask, request, redirect, send_from_directory
 from flask_cors import CORS
 from flask_migrate import Migrate
-from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf
 from flask_login import LoginManager
-from .models import db, User
+from .models import db, User, environment
 from .api.auth_routes import auth_routes
 from .api.market_routes import market_routes
+from .api.portfolio_routes import portfolio_routes
+from .api.watchlist_routes import watchlist_routes
+from .api.order_routes import order_routes
+from .api.transaction_routes import transaction_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -36,25 +40,27 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(market_routes, url_prefix='/api/market')
+app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')
+app.register_blueprint(watchlist_routes, url_prefix='/api/watchlist')
+app.register_blueprint(order_routes, url_prefix='/api/orders')
+app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 db.init_app(app)
 Migrate(app, db)
 
 # Application Security
 CORS(app)
+CSRFProtect(app)
 
 
-# Since we are deploying with Docker and Flask,
-# we won't be using a buildpack when we deploy to Heroku.
-# Therefore, we need to make sure that in production any
-# request made over http is redirected to https.
-# Well.........
+# Since we are deploying with Docker and Flask, we won't be using a
+# buildpack when we deploy to Render. Therefore, we need to make sure
+# that in production any request made over http is redirected to https.
 @app.before_request
 def https_redirect():
-    if os.environ.get('FLASK_ENV') == 'production':
+    if environment == 'production':
         if request.headers.get('X-Forwarded-Proto') == 'http':
             url = request.url.replace('http://', 'https://', 1)
-            code = 301
-            return redirect(url, code=code)
+            return redirect(url, code=301)
 
 
 @app.after_request
@@ -62,10 +68,9 @@ def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
-        httponly=True)
+        secure=environment == 'production',
+        samesite='Lax',
+        httponly=False)
     return response
 
 
@@ -97,3 +102,8 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(_):
     return app.send_static_file('index.html')
+
+
+@app.errorhandler(CSRFError)
+def csrf_error(e):
+    return {"errors": {"csrf_token": e.description}}, 400

@@ -36,7 +36,7 @@ HISTORY_INTERVAL_LABEL = {k: v["interval"] for k, v in HISTORY_PARAMS.items()}
 SIM_EPOCH = datetime(2020, 1, 1, tzinfo=timezone.utc).date()
 
 
-class _TTLCache:
+class TTLCache:
     """Single global lock is fine here: request volume for a demo app is low
     and this guarantees only one thread ever calls a given producer, which
     prevents a cache-stampede of duplicate yfinance calls for the same key."""
@@ -56,7 +56,7 @@ class _TTLCache:
             return value
 
 
-_cache = _TTLCache()
+_cache = TTLCache()
 
 
 def _now_iso():

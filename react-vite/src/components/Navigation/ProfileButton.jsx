@@ -1,11 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import * as sessionActions from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormPage from "../LoginFormPage";
-import SignupFormPage from "../SignupFormPage";
+import { useNavigate } from "react-router-dom";
+import { thunkLogout } from "../../redux/session";
 import { HiBars3 } from "react-icons/hi2";
 import "./ProfileButton.css";
 
@@ -16,8 +13,8 @@ function ProfileButton({ user }) {
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-    setShowMenu(!showMenu);
+    e.stopPropagation();
+    setShowMenu((prev) => !prev);
   };
 
   useEffect(() => {
@@ -30,17 +27,16 @@ function ProfileButton({ user }) {
     };
 
     document.addEventListener("click", closeMenu);
-
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
 
-  const logout = (e) => {
+  const logout = async (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    await dispatch(thunkLogout());
     closeMenu();
-    navigate("/"); // Navigates to home page after logging out
+    navigate("/");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -57,46 +53,17 @@ function ProfileButton({ user }) {
       </button>
 
       <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <div className="options">
-              <div>Hello, {user.firstName}</div>
-              <div>{user.email}</div>
-            </div>
-            <hr />
-            <div className="manage-div">
-              <div>
-                <Link to="/api/spots/current" className="manage-link">
-                  Manage Spots
-                </Link>
-              </div>
-              <div>
-                <Link to="/api/reviews/current" className="manage-link">
-                  Manage Reviews
-                </Link>
-              </div>
-            </div>
-            <hr />
-            <div className="logout-button-div">
-              <button className="logout-button" onClick={logout}>
-                Log Out
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormPage />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormPage />}
-            />
-          </>
-        )}
+        <div className="options">
+          <div>Hello, {user.username}</div>
+          <div>{user.email}</div>
+          <div>${user.cash_balance.toFixed(2)} cash</div>
+        </div>
+        <hr />
+        <div className="logout-button-div">
+          <button className="logout-button" onClick={logout}>
+            Log Out
+          </button>
+        </div>
       </ul>
     </>
   );

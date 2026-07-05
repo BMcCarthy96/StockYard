@@ -5,12 +5,18 @@ import {
     combineReducers,
 } from "redux";
 import thunk from "redux-thunk";
-import { sessionReducer } from "./session";
-import stocksReducer from "./stocks";
+import sessionReducer from "./session";
+import marketReducer from "./market";
+import portfolioReducer from "./portfolio";
+import watchlistReducer from "./watchlist";
+import transactionsReducer from "./transactions";
 
 const rootReducer = combineReducers({
     session: sessionReducer,
-    stocks: stocksReducer,
+    market: marketReducer,
+    portfolio: portfolioReducer,
+    watchlist: watchlistReducer,
+    transactions: transactionsReducer,
 });
 
 let enhancer;

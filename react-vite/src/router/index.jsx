@@ -1,45 +1,34 @@
 import { createBrowserRouter } from "react-router-dom";
-import Trade from "../components/TradePage/Trade";
-import Watchlist from "../components/WatchlistPage/Watchlist";
-import Portfolio from "../components/PortfolioPage/Portfolio";
-import LoginFormPage from "../components/LoginFormPage";
-import SignupFormPage from "../components/SignupFormPage";
 import Layout from "./Layout";
+import ProtectedRoute from "./ProtectedRoute";
+import Landing from "../pages/Landing/Landing";
+import Login from "../pages/Login/Login";
+import Signup from "../pages/Signup/Signup";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Markets from "../pages/Markets/Markets";
+import AssetDetail from "../pages/AssetDetail/AssetDetail";
+import Portfolio from "../pages/Portfolio/Portfolio";
+import Transactions from "../pages/Transactions/Transactions";
+import NotFound from "../pages/NotFound/NotFound";
 
 export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
+      { path: "/", element: <Landing /> },
+      { path: "/login", element: <Login /> },
+      { path: "/signup", element: <Signup /> },
+      { path: "/markets", element: <Markets /> },
+      { path: "/assets/:symbol", element: <AssetDetail /> },
       {
-        path: "/",
-        element: (
-          <>
-            <h1>Trading & Investing</h1>,
-            <p>
-              StockYard offers real-time data, powerful tools, and expert
-              <br />
-              insights to help you make informed decisions. Start building your
-              <br />
-              financial future today with StockYard.
-            </p>
-          </>
-        ),
+        element: <ProtectedRoute />,
+        children: [
+          { path: "/dashboard", element: <Dashboard /> },
+          { path: "/portfolio", element: <Portfolio /> },
+          { path: "/transactions", element: <Transactions /> },
+        ],
       },
-      { path: "/trade", element: <Trade /> },
-      { path: "/watchlist", element: <Watchlist /> },
-      { path: "/portfolio", element: <Portfolio /> },
-      {
-        path: "login",
-        element: <LoginFormPage />,
-      },
-      {
-        path: "signup",
-        element: <SignupFormPage />,
-      },
-      {
-        path: "portfolio",
-        element: <Portfolio />,
-      },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ]);

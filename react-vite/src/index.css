@@ -1,17 +1,13 @@
-/* TODO: Add sitewide styles */
 * {
-  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  background-color: white;
-}
-
-html {
-  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f5f6fa;
+  color: #1a1a1a;
 }
 
 a {
@@ -19,95 +15,101 @@ a {
   color: inherit;
 }
 
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select {
+  font-family: inherit;
+}
+
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 1.5rem;
 }
 
-.container__header {
-  margin-bottom: 1rem;
+.card {
+  background: white;
+  border: 1px solid #e2e4e9;
+  border-radius: 8px;
+  padding: 1.5rem;
 }
 
-container h1 {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  margin-bottom: 1rem;
-  font-style: italic;
-  font-weight: 400;
-}
-
-.site-btn.primary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 1.5rem;
-  transition: all 0.2s ease-in-out;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #1a56db;
+  color: white;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1px solid #d7dae0;
+}
+
+.btn-buy {
+  background: #0ecb81;
+  color: white;
+}
+
+.btn-sell {
+  background: #f6465d;
+  color: white;
+}
+
+.input {
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #d7dae0;
+  font-size: 0.95rem;
   width: 100%;
-  background-color: #f0b478;
-  color: black;
-  padding: 0.625rem 1.25rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.1rem;
 }
 
-.site-btn.primary:hover,
-.site-btn.danger:hover {
-  background-color: #141414;
-  color: white;
+.error-text {
+  color: #f6465d;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
 }
 
-.site-btn.secondary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-  cursor: pointer;
-  background-color: white;
-  color: #f0b478;
-  border: 2px solid #f0f0b4;
-  border-radius: 0.25rem;
-  padding: 0.625rem 1.25rem;
-  max-width: 200px;
-  transition: all 0.2s ease-in-out;
+.pos {
+  color: #0ecb81;
 }
 
-.site-btn.secondary:hover {
-  background-color: #141414;
-  color: white;
+.neg {
+  color: #f6465d;
 }
 
-.site-btn.danger {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-  cursor: pointer;
-  background-color: #141414;
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.625rem 1.25rem;
-  max-width: 200px;
-  transition: all 0.2s ease-in-out;
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.site-btn:disabled {
-  background-color: #cccccc; /* Gray background for disabled */
-  color: #999999; /* Dark gray text for disabled */
-  cursor: not-allowed; /* Not-allowed cursor for disabled buttons */
-  opacity: 0.7; /* Slightly transparent effect */
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #eceef2;
 }
 
-.site-btn:disabled:hover {
-  background-color: #cccccc; /* No hover effect for disabled */
-  cursor: not-allowed; /* Maintain not-allowed cursor */
-}
-
-.primary {
-  color: #7b3f00;
-  font-style: bold;
-  font-weight: bolder;
+.page-loading,
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #6b7280;
 }

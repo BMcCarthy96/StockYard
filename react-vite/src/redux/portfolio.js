@@ -1,76 +1,49 @@
-const SET_PORTFOLIO = "portfolio/setPortfolio";
-const REMOVE_PORTFOLIO = "portfolio/removePortfolio";
+import { csrfFetchJson } from "../utils/csrfFetch";
+import { LOGOUT, updateCashBalance } from "./session";
 
-const setPortfolio = (portfolio) => ({
-    type: SET_PORTFOLIO,
-    payload: portfolio,
-});
+const SET_SUMMARY = "portfolio/setSummary";
+const SET_HISTORY = "portfolio/setHistory";
 
-const removePortfolio = (userId) => ({
-    type: REMOVE_PORTFOLIO,
-    userId,
-});
+const setSummary = (summary) => ({ type: SET_SUMMARY, payload: summary });
+const setHistory = (range, data) => ({ type: SET_HISTORY, payload: { range, data } });
 
-export const getPortfolioThunk = (userId) => async (dispatch) => {
-    const res = await fetch(`/api/portfolio/${userId}`);
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(setPortfolio(data));
-        return data;
-    }
+export const thunkLoadPortfolio = () => async (dispatch) => {
+  const data = await csrfFetchJson("/api/portfolio/");
+  dispatch(setSummary(data));
+  return data;
 };
 
-export const createPortfolioThunk = (portfolioData) => async (dispatch) => {
-    const res = await fetch(`/api/portfolio`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(portfolioData),
-    });
-
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(setPortfolio(data));
-        return data;
-    }
+export const thunkLoadPortfolioHistory = (range) => async (dispatch) => {
+  const data = await csrfFetchJson(`/api/portfolio/history?range=${range}`);
+  dispatch(setHistory(range, data));
+  return data;
 };
 
-export const updatePortfolioThunk =
-    (userId, updateData) => async (dispatch) => {
-        const res = await fetch(`/api/portfolio/${userId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updateData),
-        });
-
-        if (res.ok) {
-            const data = await res.json();
-            dispatch(setPortfolio(data));
-            return data;
-        }
-    };
-
-export const deletePortfolioThunk = (userId) => async (dispatch) => {
-    const res = await fetch(`/api/portfolio/${userId}`, {
-        method: "DELETE",
-    });
-
-    if (res.ok) {
-        dispatch(removePortfolio(userId));
-    }
+// Places an order, then refreshes the session's cash balance and the
+// portfolio summary. Callers that also show transactions/watchlist should
+// separately dispatch thunkLoadTransactions()/thunkLoadWatchlist().
+export const thunkPlaceOrder = (order) => async (dispatch) => {
+  try {
+    const result = await csrfFetchJson("/api/orders/", { method: "POST", body: order });
+    dispatch(updateCashBalance(result.cash_balance));
+    await dispatch(thunkLoadPortfolio());
+    return { result, errors: null };
+  } catch (e) {
+    return { result: null, errors: e.errors };
+  }
 };
 
-const initialState = {};
+const initialState = { summary: null, history: {} };
 
 export default function portfolioReducer(state = initialState, action) {
-    switch (action.type) {
-        case SET_PORTFOLIO:
-            return { ...state, [action.payload.user_id]: action.payload };
-        case REMOVE_PORTFOLIO: {
-            const newState = { ...state };
-            delete newState[action.userId];
-            return newState;
-        }
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case SET_SUMMARY:
+      return { ...state, summary: action.payload };
+    case SET_HISTORY:
+      return { ...state, history: { ...state.history, [action.payload.range]: action.payload.data } };
+    case LOGOUT:
+      return initialState;
+    default:
+      return state;
+  }
 }

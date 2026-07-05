@@ -9,8 +9,8 @@ from sqlalchemy import pool
 from alembic import context
 
 import os
-environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA")
+environment = "development" if os.environ.get("FLASK_DEBUG") == "1" else "production"
+SCHEMA = os.environ.get("SCHEMA", "public")
 
 
 # this is the Alembic Config object, which provides

@@ -1,25 +1,33 @@
-from app.models import db, Transaction
-from datetime import datetime
+from app.models import db, User, Transaction, environment, SCHEMA
+from app.models.user import STARTING_CASH_BALANCE
+from sqlalchemy.sql import text
+from .demo_activity import compute_demo_state
+
 
 def seed_transactions():
-    transaction1 = Transaction(
-        portfolio_stock_id=1,
-        transaction_type="buy",
-        quantity=10,
-        price_per_share=190.42,
-        total_value=1904.20,
-        transaction_date=datetime(2023, 10, 1),
-    )
-    transaction2 = Transaction(
-        portfolio_stock_id=2,
-        transaction_type="sell",
-        quantity=5,
-        price_per_share=155.37,
-        total_value=776.85,
-        transaction_date=datetime(2023, 10, 2),
-    )
-    db.session.add_all([transaction1, transaction2])
+    demo = User.query.filter(User.username == 'Demo').first()
+    if not demo:
+        return
+
+    state = compute_demo_state(STARTING_CASH_BALANCE)
+    for row in state["transactions"]:
+        db.session.add(Transaction(
+            user_id=demo.id,
+            symbol=row["symbol"],
+            side=row["side"],
+            quantity=row["quantity"],
+            price=row["price"],
+            total=row["total"],
+            created_at=row["created_at"],
+        ))
+
+    demo.cash_balance = state["cash_balance"]
     db.session.commit()
+
+
 def undo_transactions():
-    db.session.execute("DELETE FROM transactions")
+    if environment == "production":
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.transactions RESTART IDENTITY CASCADE;"))
+    else:
+        db.session.execute(text("DELETE FROM transactions"))
     db.session.commit()

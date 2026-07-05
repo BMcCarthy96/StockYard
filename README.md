@@ -5,6 +5,10 @@ account starts with $100,000 in play money to trade 20 stocks and 8
 cryptocurrencies against real market data, with live candlestick charts,
 a portfolio equity curve, and a watchlist. No real money is ever involved.
 
+> StockYard began as a team capstone concept — this repository is my complete
+> solo rebuild: market-data service, trading engine, portfolio history replay,
+> frontend, tests, and deployment.
+
 **Live demo:** _add your Render URL here once deployed_
 **Demo login:** `demo@aa.io` / `password` (or click "Log in as Demo" on the login page)
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link, useNavigate } from "react-router-dom";
+import { FaChartLine } from "react-icons/fa6";
 import { thunkLogin } from "../../redux/session";
+import "./Login.css";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -32,10 +34,13 @@ export default function Login() {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "420px" }}>
-      <div className="card">
+    <div className="auth-page">
+      <div className="card auth-card">
+        <FaChartLine size={22} color="#f0b90b" />
         <h1>Log in to StockYard</h1>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
+        <p className="auth-subtitle">Welcome back. Trade with your $100,000 paper balance.</p>
+
+        <form onSubmit={handleSubmit} className="auth-form">
           <div>
             <label htmlFor="email">Email</label>
             <input
@@ -64,16 +69,21 @@ export default function Login() {
           <button type="submit" className="btn btn-primary" disabled={submitting}>
             Log In
           </button>
-          <button
-            type="button"
-            className="btn btn-ghost"
-            disabled={submitting}
-            onClick={() => login({ email: "demo@aa.io", password: "password" })}
-          >
-            Log in as Demo
-          </button>
         </form>
-        <p style={{ marginTop: "1rem" }}>
+
+        <div className="auth-divider">or</div>
+
+        <button
+          type="button"
+          className="btn btn-ghost"
+          style={{ width: "100%" }}
+          disabled={submitting}
+          onClick={() => login({ email: "demo@aa.io", password: "password" })}
+        >
+          Log in as Demo
+        </button>
+
+        <p className="auth-footer">
           Don&apos;t have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>

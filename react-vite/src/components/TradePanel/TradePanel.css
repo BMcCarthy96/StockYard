@@ -1,0 +1,59 @@
+.trade-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trade-side-toggle {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.trade-side-toggle .btn {
+  flex: 1;
+}
+
+.trade-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.trade-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-3);
+}
+
+.trade-mode-toggle {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 2px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.trade-mode-toggle button {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.trade-mode-toggle button.active {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+}
+
+.trade-preview {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}

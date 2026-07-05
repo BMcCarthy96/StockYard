@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { thunkLoadTransactions } from "../../redux/transactions";
+import AssetIcon from "../../components/AssetIcon/AssetIcon";
+import "./Transactions.css";
 
 export default function Transactions() {
   const dispatch = useDispatch();
@@ -27,7 +29,7 @@ export default function Transactions() {
     <div className="container">
       <h1>Transactions</h1>
 
-      <form onSubmit={applyFilters} style={{ display: "flex", gap: "0.5rem", margin: "1rem 0" }}>
+      <form onSubmit={applyFilters} className="transactions-filters">
         <input
           className="input"
           style={{ maxWidth: "160px" }}
@@ -40,41 +42,56 @@ export default function Transactions() {
           <option value="buy">Buy</option>
           <option value="sell">Sell</option>
         </select>
-        <button type="submit" className="btn btn-primary">Filter</button>
+        <button type="submit" className="btn btn-primary">
+          Filter
+        </button>
       </form>
 
       {items.length === 0 ? (
         <p className="empty-state">No transactions match your filters.</p>
       ) : (
         <>
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Symbol</th>
-                <th>Side</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((t) => (
-                <tr key={t.id}>
-                  <td>{new Date(t.created_at).toLocaleDateString()}</td>
-                  <td><Link to={`/assets/${t.symbol}`}>{t.symbol}</Link></td>
-                  <td className={t.side === "buy" ? "pos" : "neg"}>{t.side}</td>
-                  <td>{t.quantity}</td>
-                  <td>${t.price.toFixed(2)}</td>
-                  <td>${t.total.toFixed(2)}</td>
+          <div className="data-table-wrap card">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Asset</th>
+                  <th>Side</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
-            <button className="btn btn-ghost" disabled={page <= 1} onClick={() => goToPage(page - 1)}>Previous</button>
-            <span>Page {page} of {pages}</span>
-            <button className="btn btn-ghost" disabled={page >= pages} onClick={() => goToPage(page + 1)}>Next</button>
+              </thead>
+              <tbody>
+                {items.map((t) => (
+                  <tr key={t.id}>
+                    <td>{new Date(t.created_at).toLocaleDateString()}</td>
+                    <td>
+                      <Link to={`/assets/${t.symbol}`} className="asset-cell">
+                        <AssetIcon symbol={t.symbol} size={22} />
+                        <span>{t.symbol}</span>
+                      </Link>
+                    </td>
+                    <td className={t.side === "buy" ? "pos" : "neg"}>{t.side}</td>
+                    <td className="num">{t.quantity}</td>
+                    <td className="num">${t.price.toFixed(2)}</td>
+                    <td className="num">${t.total.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="transactions-pagination">
+            <button className="btn btn-ghost" disabled={page <= 1} onClick={() => goToPage(page - 1)}>
+              Previous
+            </button>
+            <span>
+              Page {page} of {pages}
+            </span>
+            <button className="btn btn-ghost" disabled={page >= pages} onClick={() => goToPage(page + 1)}>
+              Next
+            </button>
           </div>
         </>
       )}

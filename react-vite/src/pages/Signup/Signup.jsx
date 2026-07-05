@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link, useNavigate } from "react-router-dom";
+import { FaChartLine } from "react-icons/fa6";
 import { thunkSignup } from "../../redux/session";
+import "../Login/Login.css";
 
 export default function Signup() {
   const dispatch = useDispatch();
@@ -34,10 +36,13 @@ export default function Signup() {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "420px" }}>
-      <div className="card">
+    <div className="auth-page">
+      <div className="card auth-card">
+        <FaChartLine size={22} color="#f0b90b" />
         <h1>Create your account</h1>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
+        <p className="auth-subtitle">Start with a $100,000 paper-trading balance, on the house.</p>
+
+        <form onSubmit={handleSubmit} className="auth-form">
           <div>
             <label htmlFor="username">Username</label>
             <input
@@ -91,7 +96,8 @@ export default function Signup() {
             Sign Up
           </button>
         </form>
-        <p style={{ marginTop: "1rem" }}>
+
+        <p className="auth-footer">
           Already have an account? <Link to="/login">Log in</Link>
         </p>
       </div>

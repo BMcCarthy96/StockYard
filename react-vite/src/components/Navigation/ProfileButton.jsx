@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { thunkLogout } from "../../redux/session";
 import { HiBars3 } from "react-icons/hi2";
 import "./ProfileButton.css";
@@ -59,6 +59,15 @@ function ProfileButton({ user }) {
           <div>${user.cash_balance.toFixed(2)} cash</div>
         </div>
         <hr />
+        {/* Only visible on mobile widths (see .dropdown-nav-links CSS) — the
+            navbar's own links cover this on desktop. */}
+        <div className="dropdown-nav-links">
+          <NavLink to="/markets" onClick={closeMenu}>Markets</NavLink>
+          <NavLink to="/dashboard" onClick={closeMenu}>Dashboard</NavLink>
+          <NavLink to="/portfolio" onClick={closeMenu}>Portfolio</NavLink>
+          <NavLink to="/transactions" onClick={closeMenu}>Transactions</NavLink>
+          <hr />
+        </div>
         <div className="logout-button-div">
           <button className="logout-button" onClick={logout}>
             Log Out

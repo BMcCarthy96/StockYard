@@ -11,6 +11,7 @@ function Navigation() {
   const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
 
   const navLinkClass = ({ isActive }) => `create-link${isActive ? " active" : ""}`;
+  const sessionLinkClass = ({ isActive }) => `create-link session-only${isActive ? " active" : ""}`;
 
   return (
     <nav className="navbar">
@@ -27,13 +28,13 @@ function Navigation() {
           </NavLink>
           {sessionUser && (
             <>
-              <NavLink to="/dashboard" className={navLinkClass}>
+              <NavLink to="/dashboard" className={sessionLinkClass}>
                 Dashboard
               </NavLink>
-              <NavLink to="/portfolio" className={navLinkClass}>
+              <NavLink to="/portfolio" className={sessionLinkClass}>
                 Portfolio
               </NavLink>
-              <NavLink to="/transactions" className={navLinkClass}>
+              <NavLink to="/transactions" className={sessionLinkClass}>
                 Transactions
               </NavLink>
             </>

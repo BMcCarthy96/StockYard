@@ -86,7 +86,10 @@
     gap: var(--space-3);
   }
 
-  .create-link {
+  /* Dashboard/Portfolio/Transactions move into the profile dropdown on
+     mobile (see .dropdown-nav-links); Markets stays in the bar since
+     logged-out visitors have no dropdown to fall back to. */
+  .create-link.session-only {
     display: none;
   }
 }

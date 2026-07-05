@@ -61,6 +61,29 @@
   margin: var(--space-2) 0;
 }
 
+.dropdown-nav-links {
+  display: none;
+  flex-direction: column;
+  padding: 0 var(--space-4);
+}
+
+.dropdown-nav-links a {
+  padding: var(--space-2) 0;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dropdown-nav-links a.active {
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+  .dropdown-nav-links {
+    display: flex;
+  }
+}
+
 .logout-button-div {
   display: flex;
   justify-content: center;

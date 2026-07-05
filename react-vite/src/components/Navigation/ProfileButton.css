@@ -1,89 +1,88 @@
 .profile-button {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: 1px solid white;
-    border-radius: 20px;
-    cursor: pointer;
-    color: #eeeaea;
-    font-size: 24px;
-    position: relative;
-  }
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--text-primary);
+  padding: 6px 10px;
+  position: relative;
+}
 
-  .profile-button:hover {
-    color: #b2b2b2;
-  }
+.profile-button:hover {
+  border-color: var(--text-secondary);
+}
 
-  .profile-dropdown {
-    position: absolute;
-    right: 0;
-    top: 20px;
-    background-color: #f1f4f0;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
-    padding: 12px 0;
-    width: 220px;
-    z-index: 1000;
-    border: 3px solid black;
-    list-style: none
-  }
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) 0;
+  width: 220px;
+  z-index: 1000;
+  list-style: none;
+}
 
-  .profile-dropdown.hidden {
-    display: none;
-  }
+.profile-dropdown.hidden {
+  display: none;
+}
 
-  .profile-dropdown li {
-    padding: 12px 20px;
-    cursor: pointer;
-    text-align: left;
-    font-size: 14px;
-  }
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: var(--space-1) var(--space-4) var(--space-3);
+}
 
-  .profile-dropdown li:hover {
-    background-color: #e5ede4;
-  }
+.options div:first-child {
+  color: var(--text-primary);
+  font-weight: 600;
+}
 
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-    padding: 10px 0;
-  }
+.options div:nth-child(2) {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
 
-  .manage-link {
-    text-decoration: none;
-    color: #333;
-    padding: 8px 0;
-  }
+.options div:nth-child(3) {
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 4px;
+}
 
-  .manage-link:hover {
-    background-color: #FF6F61;
-    color: white;
-    border-radius: 5px;
-  }
+.profile-dropdown hr {
+  margin: var(--space-2) 0;
+}
 
-  .logout-button-div {
-    display: flex;
-    justify-content: center;
-  }
+.logout-button-div {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-4);
+  margin-top: var(--space-2);
+}
 
-  .logout-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #FF6F61;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    height: 35px;
-    width: 90px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    white-space: nowrap;
-  }
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: var(--radius-sm);
+  height: 36px;
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-  .logout-button:hover {
-    background-color: #f84d3e;
-  }
+.logout-button:hover {
+  background-color: var(--red-bg);
+}

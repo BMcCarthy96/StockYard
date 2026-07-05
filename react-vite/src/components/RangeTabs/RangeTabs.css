@@ -1,0 +1,28 @@
+.range-tabs {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.range-tab {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.range-tab:hover {
+  color: var(--text-primary);
+}
+
+.range-tab.active {
+  background: var(--bg-panel);
+  color: var(--accent);
+}

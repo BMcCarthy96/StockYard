@@ -1,0 +1,47 @@
+.markets-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  flex-wrap: wrap;
+}
+
+.markets-tabs {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.markets-tabs .btn.active {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.markets-search {
+  max-width: 260px;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--text-secondary);
+}
+
+.watch-star {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+@media (max-width: 900px) {
+  .asset-name {
+    display: none;
+  }
+}

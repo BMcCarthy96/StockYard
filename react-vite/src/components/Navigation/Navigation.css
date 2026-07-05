@@ -1,17 +1,12 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: transparent;
-  padding: 15px 0;
-  box-shadow: none;
+  background-color: rgba(11, 14, 17, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--space-4);
+  height: 60px;
   position: sticky;
   top: 0;
   width: 100%;
@@ -21,80 +16,77 @@ body {
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-6);
 }
 
 .home-logo {
-  text-decoration: none;
-  padding-left: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .title {
-  font-size: 22px;
-  font-weight: bold;
-  color: black;
-  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
 }
 
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .create-link {
-  background: none;
-  color: black;
-  text-decoration: none;
-  margin-right: 10px;
-  font-family: "Montserrat Alternates", sans-serif;
-  font-weight: 400;
-  font-size: large;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.15s ease;
+  padding: 6px 0;
 }
 
-@media (max-width: 768px) {
-  .navbar {
-    padding: 10px 15px;
-  }
-  .title {
-    font-size: 18px;
-  }
-  .home-logo svg {
-    width: 30px;
-    height: 30px;
-  }
+.create-link:hover,
+.create-link.active {
+  color: var(--text-primary);
 }
 
 .auth-link {
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 0.85rem;
   font-weight: 600;
-  border-radius: 6px;
-  border: 2px solid white;
-  color: white;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-  font-family: "Montserrat Alternates", sans-serif;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
 }
 
-/* Style for "Log In" */
-.auth-link:nth-child(1) {
-  background-color: #91c274;
-  color: white;
-  border: white;
+.auth-link.login-link {
+  color: var(--text-primary);
 }
 
-/* Style for "Sign Up" */
-.auth-link:nth-child(2) {
-  background-color: transparent;
+.auth-link.login-link:hover {
+  color: var(--accent);
 }
 
-body.home-page {
-  background: linear-gradient(to right, #517d37, #91c274) no-repeat;
-  background-size: 100% 50%; /* Gradient only on the top half */
-  background-color: white; /* White for the bottom half */
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100vh; /* Full viewport height */
+.auth-link.signup-link {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.auth-link.signup-link:hover {
+  background-color: var(--accent-hover);
+}
+
+@media (max-width: 900px) {
+  .nav-left {
+    gap: var(--space-3);
+  }
+
+  .create-link {
+    display: none;
+  }
 }

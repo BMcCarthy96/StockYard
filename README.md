@@ -1,11 +1,11 @@
 # StockYard
 
-A full-stack paper-trading platform — think a mock Binance/Robinhood. Every
+A full-stack paper-trading platform, think a mock Binance/Robinhood. Every
 account starts with $100,000 in play money to trade 20 stocks and 8
 cryptocurrencies against real market data, with live candlestick charts,
 a portfolio equity curve, and a watchlist. No real money is ever involved.
 
-> StockYard began as a team capstone concept — this repository is my complete
+> StockYard began as a team capstone concept. This repository is my complete
 > solo rebuild: market-data service, trading engine, portfolio history replay,
 > frontend, tests, and deployment.
 
@@ -15,7 +15,7 @@ a portfolio equity curve, and a watchlist. No real money is ever involved.
 ## Screenshots
 
 <!--
-  Add screenshots here once deployed — e.g.:
+  Add screenshots here once deployed, e.g.:
   ![Dashboard](docs/screenshots/dashboard.png)
   ![Markets](docs/screenshots/markets.png)
   ![Asset detail](docs/screenshots/asset-detail.png)
@@ -23,17 +23,17 @@ a portfolio equity curve, and a watchlist. No real money is ever involved.
 
 ## Features
 
-- **Real market data** — live quotes and historical candles for 20 stocks and
+- **Real market data**: live quotes and historical candles for 20 stocks and
   8 cryptocurrencies, sourced from Yahoo Finance via `yfinance`.
-- **Always-on demo** — if live data is ever unavailable, a deterministic
+- **Always-on demo**: if live data is ever unavailable, a deterministic
   simulated market takes over automatically so the app never breaks. Every
   simulated quote/candle is tagged `source: "simulated"` in the API and shown
   with a badge in the UI.
-- **Real trading logic** — buy/sell by quantity or dollar amount, weighted
+- **Real trading logic**: buy/sell by quantity or dollar amount, weighted
   average cost basis, oversell/overbuy rejection, and a portfolio equity
   curve that replays your actual transaction history against historical
   prices.
-- **Live charts** — candlestick and line views across 6 time ranges (1D
+- **Live charts**: candlestick and line views across 6 time ranges (1D
   through ALL), built on `lightweight-charts`.
 - **Watchlist, transaction history with filters/pagination, and a portfolio
   allocation breakdown.**
@@ -56,8 +56,8 @@ a portfolio equity curve, and a watchlist. No real money is ever involved.
 **Market data service** (`app/services/market_data.py`) is the only module
 that talks to `yfinance`. Every quote and chart request goes through one
 TTL-cached batch fetch (60s for quotes, 2 minutes to 24 hours for history
-depending on range), so the whole app — the markets table, the dashboard,
-the ticker tape, portfolio pricing — shares a single set of API calls
+depending on range), so the whole app (the markets table, the dashboard,
+the ticker tape, portfolio pricing) shares a single set of API calls
 instead of each widget hitting Yahoo independently.
 
 If a request fails or Yahoo has no data, the service falls back to a
@@ -71,7 +71,7 @@ mechanism, so its cash balance and holdings are provably consistent.
 
 **Portfolio history** (the equity curve on the dashboard) replays a user's
 actual transactions day-by-day against cached historical closes, rather than
-storing a separate time series — so it's always accurate to the real trade
+storing a separate time series, so it's always accurate to the real trade
 log, at the cost of being the most complex piece in the codebase (see
 `tests/test_portfolio_history.py`).
 
@@ -139,17 +139,17 @@ Required environment variables:
 | `SCHEMA` | A unique schema name, snake_case (e.g. `stockyard_schema`) |
 | `FLASK_APP` | `app` |
 
-Leave `FLASK_DEBUG` unset in production — its absence is what the app uses to
+Leave `FLASK_DEBUG` unset in production. Its absence is what the app uses to
 detect it's running in production (enables the Postgres schema prefix and
 secure cookie flags).
 
 On container start, the app runs `flask db upgrade` (applies any pending
 migrations) and `flask seed ensure` (seeds demo data **only if the database
-is empty**) before starting Gunicorn — so redeploys and restarts never wipe
+is empty**) before starting Gunicorn, so redeploys and restarts never wipe
 real signups or trades, but a fresh database still comes up with a working
 Demo account.
 
-**Use a real Postgres database, not SQLite**, for anything deployed — Render
+**Use a real Postgres database, not SQLite**, for anything deployed. Render
 web services have an ephemeral filesystem, so a SQLite file would be wiped on
 every deploy.
 
@@ -160,7 +160,7 @@ app/                  Flask backend
   api/                 Route blueprints (auth, market, orders, portfolio, watchlist, transactions)
   services/            Business logic (market_data, orders, portfolio)
   models/              SQLAlchemy models (User, Holding, Transaction, WatchlistItem)
-  assets.py            Curated stock/crypto registry (no Stock table — this is the source of truth)
+  assets.py            Curated stock/crypto registry (no Stock table; this is the source of truth)
   seeds/               Idempotent seed data for local dev / first deploy
 migrations/            Alembic migrations
 tests/                 pytest suite (order math, portfolio history replay)

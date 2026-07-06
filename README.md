@@ -9,17 +9,14 @@ a portfolio equity curve, and a watchlist. No real money is ever involved.
 > solo rebuild: market-data service, trading engine, portfolio history replay,
 > frontend, tests, and deployment.
 
-**Live demo:** _add your Render URL here once deployed_
-**Demo login:** `demo@aa.io` / `password` (or click "Log in as Demo" on the login page)
+**Live demo:** [stockyard.onrender.com](https://stockyard.onrender.com)
+**Demo login:** click "Try the demo" on the homepage (no signup needed), or use `demo@aa.io` / `password`
 
 ## Screenshots
 
-<!--
-  Add screenshots here once deployed, e.g.:
-  ![Dashboard](docs/screenshots/dashboard.png)
-  ![Markets](docs/screenshots/markets.png)
-  ![Asset detail](docs/screenshots/asset-detail.png)
--->
+![Dashboard](docs/screenshots/dashboard.png)
+![Asset detail](docs/screenshots/asset-detail.png)
+![Portfolio](docs/screenshots/portfolio.png)
 
 ## Features
 

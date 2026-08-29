@@ -46,14 +46,14 @@ export const thunkLogout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
 };
 
-const initialState = { user: null };
+const initialState = { user: null, loaded: false };
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { ...state, user: action.payload };
+      return { ...state, user: action.payload, loaded: true };
     case REMOVE_USER:
-      return { ...state, user: null };
+      return { ...state, user: null, loaded: true };
     case UPDATE_CASH_BALANCE:
       return state.user ? { ...state, user: { ...state.user, cash_balance: action.payload } } : state;
     default:

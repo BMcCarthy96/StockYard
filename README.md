@@ -9,7 +9,7 @@ a portfolio equity curve, and a watchlist. No real money is ever involved.
 > solo rebuild: market-data service, trading engine, portfolio history replay,
 > frontend, tests, and deployment.
 
-**Live demo:** [stockyard.onrender.com](https://stockyard.onrender.com)
+**Live demo:** [stockyard-live-demo.vercel.app](https://stockyard-live-demo.vercel.app)
 **Demo login:** click "Try the demo" on the homepage (no signup needed), or use `demo@aa.io` / `password`
 
 ## Screenshots

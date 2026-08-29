@@ -36,6 +36,21 @@
   font-size: 1rem;
 }
 
+.demo-status,
+.demo-error {
+  max-width: 520px;
+  margin: var(--space-4) auto 0;
+  font-size: 0.9rem;
+}
+
+.demo-status {
+  color: var(--text-secondary);
+}
+
+.demo-error {
+  color: var(--red);
+}
+
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

@@ -3,9 +3,26 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBolt, FaChartLine, FaShieldHalved, FaCoins } from "react-icons/fa6";
 import { thunkLogin } from "../../redux/session";
+import { csrfFetch } from "../../utils/csrfFetch";
 import TickerTape from "../../components/TickerTape/TickerTape";
 import AssetIcon from "../../components/AssetIcon/AssetIcon";
 import "./Landing.css";
+
+const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+async function prepareDemoLogin() {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      await csrfFetch("/api/auth/");
+      return;
+    } catch (error) {
+      // An unauthenticated response is expected and still refreshes the CSRF cookie.
+      if (error?.status === 401) return;
+      if (attempt === 1) throw error;
+      await wait(1000);
+    }
+  }
+}
 
 const FEATURES = [
   {
@@ -44,13 +61,21 @@ export default function Landing() {
   const handleTryDemo = async () => {
     setDemoLoading(true);
     setDemoError("");
-    const errors = await dispatch(thunkLogin({ email: "demo@aa.io", password: "password" }));
-    setDemoLoading(false);
-    if (errors) {
+    try {
+      // The first request wakes Render and establishes the CSRF cookie before login. If the
+      // proxy times out while the service starts, one retry continues without another click.
+      await prepareDemoLogin();
+      const errors = await dispatch(thunkLogin({ email: "demo@aa.io", password: "password" }));
+      if (errors) {
+        setDemoError("The demo did not start. Please try again.");
+        return;
+      }
+      navigate("/dashboard");
+    } catch {
       setDemoError("The demo did not start. Please try again.");
-      return;
+    } finally {
+      setDemoLoading(false);
     }
-    navigate("/dashboard");
   };
 
   const movers = [...assets]

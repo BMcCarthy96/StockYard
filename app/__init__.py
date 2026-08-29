@@ -10,6 +10,7 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf
 from flask_login import LoginManager
+from werkzeug.middleware.proxy_fix import ProxyFix
 from .models import db, User, environment
 from .api.auth_routes import auth_routes
 from .api.market_routes import market_routes
@@ -22,6 +23,11 @@ from .config import Config
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+
+# Render terminates the final proxy hop, while the Vercel frontend forwards the
+# browser-facing host and protocol. Trust one hop so Flask-WTF compares secure
+# request referrers against the public Vercel host instead of Render's origin.
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Setup login manager
 login = LoginManager(app)

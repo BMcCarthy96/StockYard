@@ -37,14 +37,20 @@ export default function Landing() {
   const assets = useSelector((state) => state.market.assets);
   const quotes = useSelector((state) => state.market.quotes);
   const [demoLoading, setDemoLoading] = useState(false);
+  const [demoError, setDemoError] = useState("");
 
   if (sessionUser) return <Navigate to="/dashboard" replace />;
 
   const handleTryDemo = async () => {
     setDemoLoading(true);
+    setDemoError("");
     const errors = await dispatch(thunkLogin({ email: "demo@aa.io", password: "password" }));
     setDemoLoading(false);
-    if (!errors) navigate("/dashboard");
+    if (errors) {
+      setDemoError("The demo did not start. Please try again.");
+      return;
+    }
+    navigate("/dashboard");
   };
 
   const movers = [...assets]
@@ -68,9 +74,20 @@ export default function Landing() {
               Get started
             </Link>
             <button className="btn btn-ghost" onClick={handleTryDemo} disabled={demoLoading}>
-              {demoLoading ? "Logging in..." : "Try the demo"}
+              {demoLoading ? "Starting demo..." : "Try the demo"}
             </button>
           </div>
+          {demoLoading && (
+            <p className="demo-status" role="status">
+              Starting the demo service. A cold start can take up to 60 seconds. This
+              page will continue automatically.
+            </p>
+          )}
+          {demoError && (
+            <p className="demo-error" role="alert">
+              {demoError}
+            </p>
+          )}
         </div>
       </section>
 
